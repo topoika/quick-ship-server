@@ -62,7 +62,7 @@ async function startServer(app: Application, httpServer: http.Server) {
     // admin.initializeApp({
     //   credential: admin.credential.cert(serviceAccount as admin.ServiceAccount),
     // });
-    Logger.info(`🚀 Server ready at http://localhost:${PORT}/graphql`);
+    // Logger.info(`🚀 Server ready at http://localhost:${PORT}/graphql`);
   });
 }
 
