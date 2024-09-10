@@ -1,26 +1,21 @@
-name: Deploy to cPanel via FTP
-
+name: Deploy Private GitHub repository to cPanel
 on:
   push:
     branches:
       - main
-
 jobs:
-  deploy:
+  FTP-Deploy-Action:
+    name: ðŸŽ‰ Deploy
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: ðŸšš Get latest code
         uses: actions/checkout@v3
-
-      - name: Upload files via FTP
-        uses: SamKirkland/FTP-Deploy-Action@4.3.0
+        with:
+          fetch-depth: 2
+      - name: ðŸ“‚ Sync folders and files to the server
+        uses: SamKirkland/FTP-Deploy-Action@4.3.3
         with:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          port: ${{ secrets.FTP_PORT }}
-          local-dir: ./
-          server-dir: /home/kimworks/api-quick-ship.john-muinde.com/
-          protocol: ftp
-          dry-run: false
