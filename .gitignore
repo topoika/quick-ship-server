@@ -1,4 +1,16 @@
 node_modules
 .env
-package-lock.json
+.env.production
+dist
+build
+
+logs/**/*
+*.log
+
+service-account-key.json
+.vscode/settings.json
+src/utils/constants.ts
+
+/uploads/*
 service-account.json
+package-lock.json

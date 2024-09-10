@@ -18,6 +18,7 @@ import Logger from "./logger";
 import { authContext } from "./utils/authContext";
 import { setupEventExpireBackgroundRunner } from "./utils/backgroundRunner";
 import resolvers from "./modules/resolvers";
+import bootstrapMobileApis from "./mobile";
 
 const PORT: any = process.env.PORT || 4000;
 
@@ -66,6 +67,6 @@ async function startServer(app: Application, httpServer: http.Server) {
 }
 
 startServer(app, httpServer).then(() => {
-  //   bootstrapMobileApis(app);
+  bootstrapMobileApis(app);
   setupEventExpireBackgroundRunner();
 });
