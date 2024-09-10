@@ -12,6 +12,7 @@
     "allowJs": true,
     "checkJs": false,
     "outDir": "./dist",
+    "rootDir": "./src",
     "strictPropertyInitialization": false,
     "resolveJsonModule": true,
     "paths": {
