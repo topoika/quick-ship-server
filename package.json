@@ -4,16 +4,7 @@
   "description": "Quick-Ship API and backend server",
   "main": "index.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node dist/bundle.js",
-    "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
-    "build": "webpack",
-    "vercel-build": "npm run build",
-    "deploy": "npm run build && vercel --prod",
-    "migrate": "npx sequelize-cli db:migrate",
-    "unmigrate": "npx sequelize-cli db:migrate:undo:all",
-    "seed": "npx sequelize-cli db:seed:all",
-    "unseed": "npx sequelize-cli db:seed:undo"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
     "RESTAPIs",
