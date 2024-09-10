@@ -1,32 +1,44 @@
 import lodash, { has, set } from "lodash";
 import { Op } from "sequelize";
 
-function buildFilter(filterObj: any, key: any) {
+interface FilterObject {
+  [key: string]: {
+    eq?: any;
+    lt?: any;
+    lte?: any;
+    gt?: any;
+    gte?: any;
+    isNull?: boolean;
+    isNotNull?: boolean;
+    neq?: any;
+    like?: string;
+    notLike?: string;
+    map?: any;
+  };
+}
+function buildFilter(filterObj: FilterObject, key: string | string[]): any {
   if (typeof key !== "string") {
     key = key[0];
   }
-  if (key === "and") {
-    return {
-      [Op.and]: filterObj["and"].map((item: any) => {
-        return {
-          [Op.and]: Object.keys(item).map((currentKey: any) => {
-            return buildFilter(item, currentKey);
-          }),
-        };
-      }),
-    };
-  } else if (key === "or") {
-    return {
-      [Op.or]: filterObj["or"].map((item: any) => {
-        return {
-          [Op.and]: Object.keys(item).map((currentKey: any) => {
-            return buildFilter(item, currentKey);
-          }),
-        };
-      }),
-    };
+
+  if (key === "and" || key === "or") {
+    const operator = key === "and" ? Op.and : Op.or;
+    if (Array.isArray(filterObj[key])) {
+      return {
+        [operator]: (filterObj[key] as FilterObject[]).map(
+          (item: FilterObject) => {
+            return {
+              [Op.and]: Object.keys(item).map((currentKey: string) => {
+                return buildFilter(item, currentKey);
+              }),
+            };
+          }
+        ),
+      };
+    }
+    return {};
   } else {
-    let where = {};
+    let where: any = {};
     let obj = filterObj[key];
     if (lodash.has(obj, "eq")) {
       set(where, [key], {
