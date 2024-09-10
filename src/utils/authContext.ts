@@ -1,5 +1,5 @@
 import { verify } from "jsonwebtoken";
-import { Context } from "../interfaces/context.interface";
+import { Context } from "../middlewares/auth-checker.middleware";
 export const authContext = async ({ req, res }: any) => {
   const auth = req.headers.authorization;
   let user = undefined;

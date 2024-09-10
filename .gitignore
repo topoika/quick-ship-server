@@ -7,7 +7,7 @@ build
 logs/**/*
 *.log
 
-service-account-key.json
+
 .vscode/settings.json
 src/utils/constants.ts
 

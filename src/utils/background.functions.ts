@@ -1,6 +1,4 @@
-import * as admin from "firebase-admin";
 import Logger from "../logger";
-import db from "../db/models";
 
 const sendUnsendNotification = async () => {
   try {
