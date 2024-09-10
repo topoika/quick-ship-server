@@ -21,6 +21,6 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           port: ${{ secrets.FTP_PORT }}
           local-dir: ./
-          server-dir: /home/kimworks/api-quick-ship.john-muinde.com
+          server-dir: /home/kimworks/api-quick-ship.john-muinde.com/
           protocol: ftp
           dry-run: false
