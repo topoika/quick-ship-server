@@ -4,8 +4,7 @@ node_modules
 dist
 build
 
-logs/**/*
-*.log
+
 
 
 .vscode/settings.json
