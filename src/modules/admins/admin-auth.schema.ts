@@ -1,6 +1,19 @@
 import { IsEmail, IsNotEmpty, MinLength } from "class-validator";
 import { Field, InputType, ObjectType } from "type-graphql";
 
+@ObjectType() // Decorator to mark the class as a GraphQL object type
+export class AdminUser {
+  @Field() // Define fields with proper GraphQL types
+  id: string;
+
+  @Field()
+  username: string;
+
+  @Field()
+  email: string;
+
+  // Add other fields as necessary
+}
 @ObjectType()
 export class Admin {
   @Field()
