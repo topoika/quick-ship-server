@@ -17,9 +17,8 @@
     "paths": {
       // "common": ["./src/common"],
       // "utils": ["./src/utils"],
-      "db": ["./models"]
+      // "db": ["./models"],
     }
-    // "noImplicitAny": false
   },
   "exclude": ["node_modules", "./dist"],
   "include": ["./src/**/*"]
