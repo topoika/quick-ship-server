@@ -2,19 +2,13 @@
   "version": 2,
   "builds": [
     {
-      "src": "src/index.ts",
+      "src": "dist/index.js",
       "use": "@vercel/node",
       "config": {
         "maxLambdaSize": "50mb"
       }
     }
   ],
-  "build": {
-    "env": {
-      "NODE_ENV": "production"
-    },
-    "command": "npm install && npm run build"
-  },
   "routes": [
     {
       "src": "/(.*)",
