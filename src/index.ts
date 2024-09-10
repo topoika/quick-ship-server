@@ -31,6 +31,8 @@ const statusController = (req: Request, res: Response) => {
   res.status(200).send({ message: "🚀 Server is running OK!!" });
 };
 
+app.get("/", statusController);
+
 app.get("/status", statusController);
 
 async function startServer(app: Application, httpServer: http.Server) {
@@ -62,7 +64,7 @@ async function startServer(app: Application, httpServer: http.Server) {
     // admin.initializeApp({
     //   credential: admin.credential.cert(serviceAccount as admin.ServiceAccount),
     // });
-    console.log(`🚀 Server ready at http://localhost:${PORT}/graphql`);
+    Logger.info(`🚀 Server ready at http://localhost:${PORT}/graphql`);
   });
 }
 
