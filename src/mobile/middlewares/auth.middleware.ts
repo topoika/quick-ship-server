@@ -21,7 +21,6 @@ const AuthMiddleware = (req: Request, res: Response, next: NextFunction) => {
     const token = req?.headers?.authorization?.split(" ")[1];
     const decoded = jwt.verify(token + "", process.env.SECRET_KEY + "");
     (req as IUserRequest).user = decoded;
-
     next();
   } catch (ex) {
     res.status(400).send({
@@ -33,11 +32,12 @@ const AuthMiddleware = (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-export const validateUser = async (id: number) => {
+const validateUser = async (id: number) => {
   const user = await db.users.findByPk(id);
   if (!user) {
     throw {
       status: 404,
+      success: false,
       message: "You do not have permission to, please register",
       error: "UserNotFound",
     };
@@ -45,6 +45,7 @@ export const validateUser = async (id: number) => {
   if (user.isBlocked) {
     throw {
       status: 403,
+      success: false,
       message: "You are blocked from this app, contact support",
       error: "User is blocked",
     };
@@ -52,4 +53,4 @@ export const validateUser = async (id: number) => {
   return user;
 };
 
-export default AuthMiddleware;
+export { AuthMiddleware, validateUser };

@@ -21,6 +21,7 @@ if (config.use_env_variable) {
     ...config,
   });
 }
+
 fs.readdirSync(__dirname)
   .filter((file: string) => {
     return (
@@ -45,3 +46,5 @@ db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
 export default db;
+
+// npx sequelize-cli migration:generate --name create-feeds-table

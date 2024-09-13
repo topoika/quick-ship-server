@@ -10,7 +10,6 @@ const AddressModel = (sequelize: any, DataTypes: any) => {
         primaryKey: true,
         type: DataTypes.INTEGER,
       },
-
       country: { type: DataTypes.STRING, allowNull: true },
       state: { type: DataTypes.STRING, allowNull: true },
       address: { type: DataTypes.STRING, allowNull: true },
@@ -21,6 +20,8 @@ const AddressModel = (sequelize: any, DataTypes: any) => {
         type: DataTypes.DOUBLE,
         allowNull: true,
       },
+      meetingPoint: { type: DataTypes.STRING, allowNull: true },
+      dateAndTime: { type: DataTypes.STRING, allowNull: true },
     },
     {
       freezeTableName: true,

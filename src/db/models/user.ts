@@ -24,10 +24,25 @@ const UserModel = (sequelize: any, DataTypes: any) => {
         defaultValue: "user",
         allowNull: true,
       },
+      successScore: {
+        type: DataTypes.DECIMAL(3, 2),
+        allowNull: true,
+        defaultValue: 0,
+      },
       password: {
         type: DataTypes.STRING,
         allowNull: true,
         defaultValue: null,
+      },
+      passwordResetExpires: {
+        type: DataTypes.DATE,
+        allowNull: true,
+        defaultValue: null,
+      },
+      signInMethodVerified: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+        allowNull: true,
       },
       verified: { type: DataTypes.BOOLEAN, defaultValue: false, allNull: true },
       signInMethod: {
@@ -49,6 +64,11 @@ const UserModel = (sequelize: any, DataTypes: any) => {
   );
   user.associate = (models: any) => {
     // associations can be defined here
+    user.hasOne(models.wallets, {
+      foreignKey: "userId",
+      as: "wallet",
+      onDelete: "CASCADE",
+    });
   };
   return user;
 };

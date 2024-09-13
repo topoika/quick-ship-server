@@ -1,23 +1,22 @@
 import { Router } from "express";
 
-import { registerValidator } from "../validators/auth.validator";
-
-import ValidatorMiddleware from "../middlewares/validator.middleware";
-import AuthMiddleware from "../middlewares/auth.middleware";
-import { registerUser } from "../controllers/auth.controllers";
+import {
+  registerUser,
+  loginUser,
+  sendEmailOtp,
+  verifyEmail,
+  requestPasswordReset,
+  resetPassword,
+} from "../controllers/auth.controller";
+import { AuthMiddleware } from "../middlewares/auth.middleware";
 
 const router = Router();
 
-router.post(
-  "/register",
-  ValidatorMiddleware(registerValidator, "body"),
-  registerUser
-);
-// router.post("/login", ValidatorMiddleware(loginValidator, "body"), loginUser);
-// router.post("/firebase-login", loginWithFirebase);
-// router.post("/request-otp", requestPasswordResetOtp);
-// router.post("/reset-password", resetPassword);
-// router.post("/send-email-otp", AuthMiddleware, sendEmailOtp);
-// router.post("/verify-email", AuthMiddleware, verifyEmail);
+router.post("/register", registerUser);
+router.post("/send-email-otp", AuthMiddleware, sendEmailOtp);
+router.post("/verify-email", AuthMiddleware, verifyEmail);
+router.post("/login", loginUser);
+router.post("/request-password-reset", requestPasswordReset);
+router.post("/reset-password", resetPassword);
 
 export default router;

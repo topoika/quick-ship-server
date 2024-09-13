@@ -55,7 +55,16 @@ module.exports = {
         allowNull: true,
         defaultValue: null,
       },
+      passwordResetExpires: {
+        type: Sequelize.DATE,
+        allowNull: true,
+      },
       verified: {
+        type: Sequelize.BOOLEAN,
+        defaultValue: false,
+        allowNull: true,
+      },
+      signInMethodVerified: {
         type: Sequelize.BOOLEAN,
         defaultValue: false,
         allowNull: true,
@@ -64,6 +73,11 @@ module.exports = {
         type: Sequelize.STRING,
         defaultValue: "email",
         allowNull: true,
+      },
+      successScore: {
+        type: Sequelize.DECIMAL(3, 2),
+        allowNull: true,
+        defaultValue: 0,
       },
       isOnline: {
         type: Sequelize.BOOLEAN,

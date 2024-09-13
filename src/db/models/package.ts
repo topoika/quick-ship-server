@@ -13,9 +13,17 @@ const PackageModel = (sequelize: any, DataTypes: any) => {
       shipperId: { type: DataTypes.INTEGER, allowNull: false },
       name: { type: DataTypes.STRING, allowNull: false },
       description: { type: DataTypes.STRING, allowNull: true },
-      dimLength: { type: DataTypes.DOUBLE, allowNull: true, defaultValue: 0 },
-      dimWidth: { type: DataTypes.DOUBLE, allowNull: true, defaultValue: 0 },
-      dimHeight: { type: DataTypes.DOUBLE, allowNull: true, defaultValue: 0 },
+      dimLength: {
+        type: DataTypes.DOUBLE,
+        allowNull: true,
+        defaultValue: null,
+      },
+      dimWidth: { type: DataTypes.DOUBLE, allowNull: true, defaultValue: null },
+      dimHeight: {
+        type: DataTypes.DOUBLE,
+        allowNull: true,
+        defaultValue: null,
+      },
       weight: { type: DataTypes.DOUBLE, allowNull: true, defaultValue: 0 },
       value: { type: DataTypes.DOUBLE, allowNull: true, defaultValue: 0 },
       approximateValue: {
@@ -41,6 +49,12 @@ const PackageModel = (sequelize: any, DataTypes: any) => {
         values: ["pending", "accepted", "paid", "picked", "delivered"],
         defaultValue: "pending",
       },
+      postManNote: { type: DataTypes.STRING, allowNull: true },
+
+      //reciever details
+      recieverName: { type: DataTypes.STRING, allowNull: true },
+      recieverPhone: { type: DataTypes.STRING, allowNull: true },
+      recieverAltPhone: { type: DataTypes.STRING, allowNull: true },
     },
     {
       freezeTableName: true,
@@ -51,7 +65,6 @@ const PackageModel = (sequelize: any, DataTypes: any) => {
     }
   );
   shipPackage.associate = (models: any) => {
-    // associations can be defined here
     shipPackage.belongsTo(models.users, {
       foreignKey: "shipperId",
       as: "shipper",

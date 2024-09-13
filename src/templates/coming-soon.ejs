@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quick Ship</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css"
+      integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#0A86DF", // Custom color for Quick Ship
+            },
+          },
+        },
+      };
+    </script>
+  </head>
+
+  <body class="font-Noto-Sans bg-gray-100">
+    <!-- Header -->
+    <header
+      class="w-full bg-[url('https://firebasestorage.googleapis.com/v0/b/look-50f09.appspot.com/o/global-airplane-shipping-cargo-logistic-airport-box-distribution-air-online-delivery-service-smartphone-application-phone-screen-flying-plane-vector-illustration-banner_440128-895.avif?alt=media&token=30ca3b7a-88d9-4242-9153-825b3f024d74')] bg-cover bg-bottom"
+    >
+      <div class="w-full min-h-screen md:w-1/2 bg-primary p-10 flex">
+        <div class="w-full text-center my-auto text-white">
+          <div class="flex w-full flex-col justify-end items-end my-10">
+            <div
+              class="font-bold flex items-center justify-center text-2xl lg:text-4xl"
+            >
+              Quick Ship
+            </div>
+            <img
+              class="image w-[300px]"
+              src="https://firebasestorage.googleapis.com/v0/b/look-50f09.appspot.com/o/coming-soom.png?alt=media&token=55bc6e86-a9d1-49be-a62f-405e5f82a0af"
+              alt="Coming Soon"
+            />
+          </div>
+
+          <!-- Countdown -->
+          <div class="w-full text-left flex mb-10">
+            <ul
+              class="w-full flex place-content-center md:place-content-end gap-5 mx-auto"
+            >
+              <li>
+                <div
+                  class="font-bold rounded-full border-dotted border-white border-4 flex items-center justify-center text-2xl lg:text-4xl h-16 lg:h-24 w-16 lg:w-24"
+                  id="cdD"
+                >
+                  00
+                </div>
+                <p class="text-center text-sm uppercase mt-2 font-semibold">
+                  Days
+                </p>
+              </li>
+
+              <li>
+                <div
+                  class="font-bold rounded-full border-dotted border-4 flex items-center justify-center text-2xl lg:text-4xl h-16 lg:h-24 w-16 lg:w-24"
+                  id="cdH"
+                >
+                  00
+                </div>
+                <p class="text-center text-sm uppercase mt-2 font-semibold">
+                  Hours
+                </p>
+              </li>
+
+              <li>
+                <div
+                  class="font-bold rounded-full border-dotted border-4 flex items-center justify-center text-2xl lg:text-4xl h-16 lg:h-24 w-16 lg:w-24"
+                  id="cdM"
+                >
+                  00
+                </div>
+                <p class="text-center text-sm uppercase mt-2 font-semibold">
+                  Minutes
+                </p>
+              </li>
+
+              <li>
+                <div
+                  class="font-bold rounded-full border-dotted border-4 flex items-center justify-center text-2xl lg:text-4xl h-16 lg:h-24 w-16 lg:w-24"
+                  id="cdS"
+                >
+                  00
+                </div>
+                <p class="text-center text-sm uppercase mt-2 font-semibold">
+                  Seconds
+                </p>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Content -->
+          <p class="text-lg mb-10 font-semibold md:text-right">
+            We're working on something awesome at Quick Ship. Stay tuned!
+          </p>
+
+          <!-- Social media -->
+          <div class="w-full text-left flex">
+            <ul
+              class="w-full flex place-content-center md:place-content-end gap-10 mx-auto text-white"
+            >
+              <li>
+                <a href="#" class="text-lg hover:text-yellow-400">
+                  <i class="fab fa-facebook-f"></i>
+                </a>
+              </li>
+
+              <li>
+                <a href="#" class="text-lg hover:text-yellow-400">
+                  <i class="fab fa-twitter"></i>
+                </a>
+              </li>
+
+              <li>
+                <a href="#" class="text-lg hover:text-yellow-400">
+                  <i class="fab fa-youtube"></i>
+                </a>
+              </li>
+              <li>
+                <a href="#" class="text-lg hover:text-yellow-400">
+                  <i class="fab fa-instagram"></i>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <script>
+      // Change the value of countDownEndDate to the day you want to end the count down
+      var countDownEndDate = "September 22, 2024 23:59:00";
+
+      var endDate = new Date(countDownEndDate).getTime();
+
+      var x = setInterval(function () {
+        var timeNow = new Date().getTime();
+
+        var timeLeft = endDate - timeNow;
+
+        var days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+        var hours = Math.floor(
+          (timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+        );
+        var minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+        if (days < 10) {
+          days = "0" + days;
+        }
+
+        if (hours < 10) {
+          hours = "0" + hours;
+        }
+
+        if (minutes < 10) {
+          minutes = "0" + minutes;
+        }
+
+        if (seconds < 10) {
+          seconds = "0" + seconds;
+        }
+
+        if (timeLeft > 0) {
+          document.getElementById("cdD").innerHTML = days;
+          document.getElementById("cdH").innerHTML = hours;
+          document.getElementById("cdM").innerHTML = minutes;
+          document.getElementById("cdS").innerHTML = seconds;
+        }
+      }, 1000);
+    </script>
+  </body>
+</html>

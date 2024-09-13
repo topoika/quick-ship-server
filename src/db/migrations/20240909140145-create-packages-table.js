@@ -71,6 +71,22 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: true,
       },
+      postManNote: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
+      recieverName: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
+      recieverPhone: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
+      recieverAltPhone: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
       sourceAddressId: {
         type: Sequelize.INTEGER,
         allowNull: true,

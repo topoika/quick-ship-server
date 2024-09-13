@@ -7,6 +7,9 @@ import RouteTokenMiddleware from "./middlewares/route-middleware";
 
 // routes import
 import authRoutes from "./routes/auth.routes";
+import userRoutes from "./routes/user.routes";
+import tripRoutes from "./routes/trip.routes";
+import packageRoutes from "./routes/package.routes";
 
 const bootstrapMobileApis = (app: Express) => {
   dotenv.config();
@@ -29,6 +32,9 @@ const bootstrapMobileApis = (app: Express) => {
 
   // API routes
   app.use("/api/auth", authRoutes);
+  app.use("/api/user", userRoutes);
+  app.use("/api/trip", tripRoutes);
+  app.use("/api/package", packageRoutes);
 
   app.use(RouteTokenMiddleware);
 };

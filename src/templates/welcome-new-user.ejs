@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome to Quick Ship</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto;
+      background-color: #ffffff;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+    .header {
+      background-color: #0a86df;
+      padding: 20px;
+      text-align: center;
+    }
+    .header img {
+      max-width: 150px;
+    }
+    .content {
+      padding: 20px;
+      text-align: center;
+    }
+    .content h1 {
+      color: #333333;
+      text-align: left;
+      font-size: 14px;
+    }
+    .content p {
+      color: #666666;
+      font-size: 14px;
+      margin: 0 0 20px;
+      font-weight: 500;
+      text-align: left;
+    }
+    .otp {
+            font-size: 32px;
+            width: fit-content;
+            padding: 10px 50px;
+            font-weight: bold;
+            color: white;
+            letter-spacing: 2px;
+            background-color: #0a86df;
+            margin: 20px auto;
+            display: inline-block;
+            border-radius: 4px;
+        }
+    .footer {
+      background-color: #f4f4f4;
+      padding: 10px;
+      text-align: center;
+      font-size: 12px;
+      color: #999999;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <img src="https://autocllan-bucket.s3.ap-south-1.amazonaws.com/1711716656116.logo.png" alt="Quick Ship Logo">
+    </div>
+    <div class="content">
+      <h1>Welcome to Quick Ship!</h1>
+      <p>Hello <%= name %> </br>We're excited to have you on board. Use the OTP below to verify your account and get started with Quick Ship:</p>
+      <div class="otp"><%= otp %></div>
+      <p>If you did not sign up for Quick Ship, please ignore this email.</p>
+    <div class="footer">
+      &copy; <%= new Date().getFullYear() %> Quick Ship. All rights reserved.
+    </div>
+  </div>
+</body>
+</html>

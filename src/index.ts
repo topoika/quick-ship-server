@@ -23,21 +23,7 @@ import resolvers from "./modules/resolvers";
 import bootstrapMobileApis from "./mobile";
 
 const PORT: any = process.env.PORT || 4000;
-const rootDir = path.resolve(__dirname, "..");
-const logsDir = path.join(rootDir, "logs");
-if (!fs.existsSync(logsDir)) {
-  fs.mkdirSync(logsDir);
-}
 
-const errorLogFile = path.join(logsDir, "error.log");
-const allLogFile = path.join(logsDir, "all.log");
-if (!fs.existsSync(errorLogFile)) {
-  fs.writeFileSync(errorLogFile, "");
-}
-
-if (!fs.existsSync(allLogFile)) {
-  fs.writeFileSync(allLogFile, "");
-}
 const app = express();
 app.use(express.json());
 app.set("view engine", "ejs");
@@ -47,7 +33,15 @@ const statusController = (req: Request, res: Response) => {
   res.status(200).send({ message: "🚀 Server is running OK!!" });
 };
 
-app.get("/", statusController);
+// app.get("/privacy-and-policy", (req, res) => {
+//   res.render(path.join(__dirname, "templates", "privacy-and-policy"));
+// });
+// app.get("/terms-and-conditions", (req, res) => {
+//   res.render(path.join(__dirname, "templates", "terms-and-conditions"));
+// });
+app.get("/", (req, res) => {
+  res.render(path.join(__dirname, "templates", "coming-soon"));
+});
 
 app.get("/status", statusController);
 
@@ -86,5 +80,5 @@ async function startServer(app: Application, httpServer: http.Server) {
 
 startServer(app, httpServer).then(() => {
   bootstrapMobileApis(app);
-  setupEventExpireBackgroundRunner();
+  // setupEventExpireBackgroundRunner();
 });
