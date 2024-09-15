@@ -29,14 +29,20 @@ const bootstrapMobileApis = (app: Express) => {
       });
     }
   });
+  app.use(RouteTokenMiddleware);
 
   // API routes
   app.use("/api/auth", authRoutes);
   app.use("/api/user", userRoutes);
-  app.use("/api/trip", tripRoutes);
-  app.use("/api/package", packageRoutes);
+  app.use("/api/trips", tripRoutes);
+  app.use("/api/packages", packageRoutes);
 
-  app.use(RouteTokenMiddleware);
+  app.all("*", (req, res, next) => {
+    res.status(404).send({
+      status: 404,
+      message: `Can't find ${req.originalUrl} on the server`,
+    });
+  });
 };
 
 export default bootstrapMobileApis;

@@ -77,6 +77,10 @@ const PackageModel = (sequelize: any, DataTypes: any) => {
       foreignKey: "destinationAddressId",
       as: "destinationAddress",
     });
+    shipPackage.hasMany(models.package_images, {
+      foreignKey: "packageId",
+      as: "images",
+    });
   };
   return shipPackage;
 };
