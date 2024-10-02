@@ -6,7 +6,7 @@ const config = {
     password: process.env.DB_PASSWORD,
     database: process.env.DB_DATABASE,
     host: process.env.DB_HOST,
-    dialect: process.env.DB_DIALECT,
+    dialect: process.env.DB_DIALECT || "mysql",
     port: process.env.DB_PORT,
     dialectOptions: {
       // useUTC: false, //for reading from database
