@@ -239,16 +239,18 @@ const deletePackage = catchAsync(async (req: any, res) => {
       where: { packageId },
     });
     // delete addresses
+
+    await db.packages.destroy({
+      where: { id: packageId },
+      transaction,
+    });
+
     await db.addresses.destroy({
       where: { id: deletePack.sourceAddressId },
       transaction,
     });
     await db.addresses.destroy({
       where: { id: deletePack.destinationAddressId },
-      transaction,
-    });
-    await db.packages.destroy({
-      where: { id: packageId },
       transaction,
     });
 

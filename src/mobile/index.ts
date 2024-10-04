@@ -19,7 +19,7 @@ const bootstrapMobileApis = (app: Express) => {
   // Route to serve the image view
   app.get("/uploads/:dir/:name", (req, res) => {
     const { name, dir } = req.params;
-    const imagePath = path.join(__dirname, `../../../uploads/${dir}`, name);
+    const imagePath = path.join(__dirname, `../../uploads/${dir}`, name);
     if (fs.existsSync(imagePath)) {
       fs.createReadStream(imagePath).pipe(res);
     } else {

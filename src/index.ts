@@ -21,6 +21,7 @@ import { authContext } from "./utils/authContext";
 import { setupEventExpireBackgroundRunner } from "./utils/backgroundRunner";
 import resolvers from "./modules/resolvers";
 import bootstrapMobileApis from "./mobile";
+import db from "./db/models";
 
 const PORT: any = process.env.PORT || 4000;
 
@@ -29,8 +30,24 @@ app.use(express.json());
 app.set("view engine", "ejs");
 const httpServer = createServer(app);
 
-const statusController = (req: Request, res: Response) => {
-  res.status(200).send({ message: "🚀 Server is running OK!!" });
+const statusController = async (req: Request, res: Response) => {
+  try {
+    const users = await db.users.findAll();
+    let results = {
+      users,
+      status: 200,
+      success: true,
+      message: "🚀 Server is running OK!!",
+    };
+    res.status(200).send(results);
+  } catch (error: any) {
+    console.error(error);
+    res.status(500).send({
+      status: 500,
+      success: false,
+      message: `Error occured: ${error.message}`,
+    });
+  }
 };
 
 // app.get("/privacy-and-policy", (req, res) => {
