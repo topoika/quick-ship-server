@@ -1,49 +1,6 @@
 import { IsEmail, IsNotEmpty, MinLength } from "class-validator";
 import { Field, InputType, ObjectType } from "type-graphql";
 
-@ObjectType() // Decorator to mark the class as a GraphQL object type
-export class AdminUser {
-  @Field() // Define fields with proper GraphQL types
-  id: string;
-
-  @Field()
-  username: string;
-
-  @Field()
-  email: string;
-
-  // Add other fields as necessary
-}
-@ObjectType()
-export class Admin {
-  @Field()
-  id: string;
-
-  @Field()
-  name: string;
-
-  @Field()
-  email: string;
-
-  @Field()
-  status: string;
-
-  @Field({ nullable: true })
-  profileImage: string;
-
-  @Field({ nullable: true, description: "About" })
-  about?: string;
-
-  @Field({ nullable: true, description: "Auth Token" })
-  token?: string;
-
-  @Field({ nullable: true })
-  createdAt: Date;
-
-  @Field({ nullable: true })
-  updatedAt: Date;
-}
-
 @InputType({
   description: "Password input",
 })
@@ -59,28 +16,7 @@ class PasswordInput {
 @InputType({
   description: "Create an admin",
 })
-export class CreateAdminInput extends PasswordInput {
-  @Field()
-  @IsNotEmpty()
-  name: string;
 
-  @Field({ nullable: false })
-  @IsNotEmpty()
-  @IsEmail({}, { message: "Email should be a valid email" })
-  email: string;
-
-  @Field({ nullable: false })
-  @IsNotEmpty()
-  profileImage: string;
-
-  @Field({ nullable: false })
-  @IsNotEmpty()
-  status: string;
-
-  @Field({ nullable: false })
-  @IsNotEmpty()
-  about: string;
-}
 
 @InputType()
 export class AdminLoginInput extends PasswordInput {
@@ -89,8 +25,18 @@ export class AdminLoginInput extends PasswordInput {
   email: String;
 }
 
-@InputType()
-export class ResetPasswordInput extends PasswordInput {
+
+@ObjectType()
+export class AdminData {
   @Field()
-  token: string;
+  totalUser: number;
+
+  @Field()
+  totalOrder: number;
+
+  @Field()
+  totalRevenue: number;
+
+  @Field()
+  totalPackages: number;
 }

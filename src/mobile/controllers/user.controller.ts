@@ -41,9 +41,11 @@ const updateProfile = catchAsync(async (req: any, res) => {
         ...(image && { image: path.basename(image[0].path) }),
         ...(verificationFront && {
           verificationFront: path.basename(verificationFront[0].path),
+          verified: false,
         }),
         ...(verificationBack && {
           verificationBack: path.basename(verificationBack[0].path),
+          verified: false,
         }),
       },
       { where: { id } },

@@ -61,9 +61,9 @@ const UserModel = (sequelize: any, DataTypes: any) => {
   user.associate = (models: any) => {
     // associations can be defined here
     user.hasOne(models.wallets, {
-      foreignKey: "walletId",
+      foreignKey: "id",
+      sourceKey: "walletId",
       as: "wallet",
-      onDelete: "CASCADE",
     });
   };
   return user;

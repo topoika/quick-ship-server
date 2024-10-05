@@ -1,5 +1,27 @@
 import { Field, ObjectType } from "type-graphql";
+@ObjectType()
+export class Wallet {
+  @Field()
+  id: number;
 
+  @Field()
+  availableForWithdrawal: number;
+
+  @Field()
+  earningsForMonth: number;
+
+  @Field()
+  successScore: number;
+
+  @Field()
+  earningsAllTime: number;
+
+  @Field()
+  completedOrders: number;
+
+  @Field()
+  activeOrders: number;
+}
 @ObjectType()
 export class User {
   @Field()
@@ -21,6 +43,9 @@ export class User {
   bio: string;
 
   @Field()
+  signInMethodVerified: boolean;
+
+  @Field()
   verified: boolean;
 
   @Field({ nullable: true })
@@ -36,14 +61,26 @@ export class User {
   isBlocked: boolean;
 
   @Field({ nullable: true })
+  role: string;
+
+  @Field({ nullable: true })
+  token: string;
+
+  @Field({ nullable: true })
+  verificationFront: string;
+
+  @Field({ nullable: true })
+  verificationBack: string;
+
+  @Field({ nullable: true })
   createdAt: Date;
 
   @Field({ nullable: true })
-  updatedAt: Date;
+  wallet: Wallet;
 }
 
 @ObjectType()
 export class UserDetails {
-  @Field({ nullable: true })
+  @Field()
   user: User;
 }

@@ -7,7 +7,9 @@ import {
   UserPaginationOutput,
 } from "./user.filter";
 import _ from "lodash";
-import { User } from "./user.schema";
+import { UserDetails } from "./user.schema";
+import { walletAtr } from "../../../mobile/controllers/data.attributes";
+import deleteFile from "../../../mobile/utils/delete.files";
 
 @Resolver()
 export class UsersResolvers {
@@ -62,30 +64,37 @@ export class UsersResolvers {
     return result;
   }
 
-  @Query((returns) => User)
+  @Query((returns) => UserDetails)
   @Authorized()
-  async getOneUser(
-    @Arg("userId")
-    userId: number
-  ): Promise<Event> {
-    let user = await db.users.findByPk(userId, {
-      where: { isDeleted: false },
-      include: [db.kyc],
+  async getUserDetails(
+    @Arg("id")
+    id: number
+  ): Promise<UserDetails> {
+    const user = await db.users.findByPk(id, {
+      include: [{ model: db.wallets, as: "wallet", attributes: walletAtr }],
     });
-
     if (!user) throw new Error("Invalid user Id provided!");
-
-    return user;
+    console.log("user", user.toJSON());
+    return { user };
   }
+
   @Mutation(() => Boolean)
   @Authorized()
-  async deleteUser(@Arg("userId") userId: number): Promise<boolean> {
+  async deleteUser(@Arg("id") id: number): Promise<boolean> {
     const user = await db.users.findOne({
-      where: { id: userId, isDeleted: false },
+      where: { id: id, isDeleted: false },
     });
-
     if (!user) throw new Error("Invalid user Id provided!");
 
+    if (user.image) {
+      deleteFile(`media/${user.image}`);
+    }
+    if (user.verificationFront) {
+      deleteFile(`media/${user.verificationFront}`);
+    }
+    if (user.verificationBack) {
+      deleteFile(`media/${user.verificationBack}`);
+    }
     await user.destroy();
 
     return true;
@@ -94,9 +103,9 @@ export class UsersResolvers {
   // block user
   @Mutation(() => Boolean)
   @Authorized()
-  async blockUser(@Arg("userId") userId: number): Promise<boolean> {
+  async blockUser(@Arg("id") id: number): Promise<boolean> {
     const user = await db.users.findOne({
-      where: { id: userId, isDeleted: false },
+      where: { id: id, isDeleted: false },
     });
 
     if (!user) throw new Error("Invalid user Id provided!");
@@ -106,18 +115,65 @@ export class UsersResolvers {
 
     return true;
   }
+  // make user an admin
+  @Mutation(() => Boolean)
+  @Authorized()
+  async makeUserAdmin(@Arg("id") id: number): Promise<boolean> {
+    try {
+      let user = await db.users.findByPk(id);
+      if (!user) throw new Error("Invalid user Id provided!");
+      user.role = "admin";
+      await user.save();
+      return true;
+    } catch (error) {
+      console.log(error);
+      throw new Error("Failed to create admin user. Please try again later");
+    }
+  }
 
   // unblock user
   @Mutation(() => Boolean)
   @Authorized()
-  async unblockUser(@Arg("userId") userId: number): Promise<boolean> {
+  async unblockUser(@Arg("id") id: number): Promise<boolean> {
     const user = await db.users.findOne({
-      where: { id: userId, isDeleted: false },
+      where: { id: id, isDeleted: false },
     });
 
     if (!user) throw new Error("Invalid user Id provided!");
 
     user.isBlocked = false;
+    await user.save();
+
+    return true;
+  }
+
+  // verify user
+  @Mutation(() => Boolean)
+  @Authorized()
+  async verifyUser(@Arg("id") id: number): Promise<boolean> {
+    const user = await db.users.findOne({
+      where: { id: id, isDeleted: false },
+    });
+
+    if (!user) throw new Error("Invalid user Id provided!");
+
+    user.verified = true;
+    await user.save();
+
+    return true;
+  }
+
+  // unverify user
+  @Mutation(() => Boolean)
+  @Authorized()
+  async unverifyUser(@Arg("id") id: number): Promise<boolean> {
+    const user = await db.users.findOne({
+      where: { id: id, isDeleted: false },
+    });
+
+    if (!user) throw new Error("Invalid user Id provided!");
+
+    user.verified = false;
     await user.save();
 
     return true;
