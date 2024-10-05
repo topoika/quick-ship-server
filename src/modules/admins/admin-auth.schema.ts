@@ -7,8 +7,8 @@ import { Field, InputType, ObjectType } from "type-graphql";
 class PasswordInput {
   @Field({ nullable: false, description: "User Password" })
   @IsNotEmpty()
-  @MinLength(8, {
-    message: "Password should be more than 8 characters",
+  @MinLength(6, {
+    message: "Password should be more than 6 characters",
   })
   password: string;
 }
@@ -16,15 +16,12 @@ class PasswordInput {
 @InputType({
   description: "Create an admin",
 })
-
-
 @InputType()
 export class AdminLoginInput extends PasswordInput {
   @Field({ nullable: false, description: "The email of a user" })
   @IsEmail({}, { message: "Email should be a valid email" })
   email: String;
 }
-
 
 @ObjectType()
 export class AdminData {

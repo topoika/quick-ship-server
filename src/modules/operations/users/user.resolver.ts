@@ -74,7 +74,6 @@ export class UsersResolvers {
       include: [{ model: db.wallets, as: "wallet", attributes: walletAtr }],
     });
     if (!user) throw new Error("Invalid user Id provided!");
-    console.log("user", user.toJSON());
     return { user };
   }
 
