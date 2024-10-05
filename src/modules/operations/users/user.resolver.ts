@@ -116,7 +116,7 @@ export class UsersResolvers {
   }
   // make user an admin
   @Mutation(() => Boolean)
-  @Authorized()
+  // @Authorized()
   async makeUserAdmin(@Arg("id") id: number): Promise<boolean> {
     try {
       let user = await db.users.findByPk(id);
