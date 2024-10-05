@@ -34,6 +34,14 @@ const PaymentModel = (sequelize: any, DataTypes: any) => {
   );
   payment.associate = (models: any) => {
     //   associations can be defined here
+    payment.belongsTo(models.users, {
+      foreignKey: "postManId",
+      as: "postMan",
+    });
+    payment.belongsTo(models.users, {
+      foreignKey: "shipperId",
+      as: "shipper",
+    });
   };
   return payment;
 };

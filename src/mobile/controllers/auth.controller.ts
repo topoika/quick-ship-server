@@ -40,25 +40,21 @@ const registerUser = catchAsync(async (req, res) => {
     });
   }
   const transaction = await db.sequelize.transaction();
-  // Hash password
   const salt = await bcrypt.genSalt(10);
   const otp = generateOTP();
   const hashedPassword = await bcrypt.hash(password, salt);
   try {
+    const wallet = await db.wallets.create({}, { transaction });
+
     user = await db.users.create(
       {
         name,
         phone,
+        walletId: wallet.id,
         idNumber,
         email,
         password: hashedPassword,
         otp,
-      },
-      { transaction }
-    );
-    await db.wallets.create(
-      {
-        userId: user.id,
       },
       { transaction }
     );
@@ -74,8 +70,10 @@ const registerUser = catchAsync(async (req, res) => {
     });
     await transaction.commit();
   } catch (error) {
+    console.log(error);
     Logger.error(error);
-    res.status(500).send({
+    await transaction.rollback();
+    return res.status(500).send({
       status: 500,
       success: false,
       message: "An error occurred while registering user",

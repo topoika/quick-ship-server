@@ -21,8 +21,6 @@ const OrderModel = (sequelize: any, DataTypes: any) => {
         type: DataTypes.ENUM,
         values: [
           "pending",
-          "paid",
-          
           "collected",
           "cancelled",
           "postponed",
@@ -32,7 +30,6 @@ const OrderModel = (sequelize: any, DataTypes: any) => {
         defaultValue: "pending",
       },
     },
-
     {
       freezeTableName: true,
       underscored: false,

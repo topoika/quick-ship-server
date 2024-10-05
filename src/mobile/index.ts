@@ -10,6 +10,10 @@ import authRoutes from "./routes/auth.routes";
 import userRoutes from "./routes/user.routes";
 import tripRoutes from "./routes/trip.routes";
 import packageRoutes from "./routes/package.routes";
+import requestRoutes from "./routes/request.routes";
+import transactionRoutes from "./routes/transaction.routes";
+import orderRoutes from "./routes/order.routes";
+import appDataRoutes from "./routes/app.data.routes";
 
 const bootstrapMobileApis = (app: Express) => {
   dotenv.config();
@@ -29,13 +33,18 @@ const bootstrapMobileApis = (app: Express) => {
       });
     }
   });
+  app.use("/api/transaction", transactionRoutes);
   app.use(RouteTokenMiddleware);
 
   // API routes
+  app.use("/api/data", appDataRoutes);
   app.use("/api/auth", authRoutes);
   app.use("/api/user", userRoutes);
   app.use("/api/trips", tripRoutes);
   app.use("/api/packages", packageRoutes);
+  app.use("/api/request", requestRoutes);
+  app.use("/api/order", orderRoutes);
+  app.use("/api/transaction", transactionRoutes);
 
   app.all("*", (req, res, next) => {
     res.status(404).send({

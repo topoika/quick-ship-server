@@ -24,11 +24,7 @@ const UserModel = (sequelize: any, DataTypes: any) => {
         defaultValue: "user",
         allowNull: true,
       },
-      successScore: {
-        type: DataTypes.DECIMAL(3, 2),
-        allowNull: true,
-        defaultValue: 0,
-      },
+      walletId: { type: DataTypes.INTEGER, allowNull: true },
       password: {
         type: DataTypes.STRING,
         allowNull: true,
@@ -65,7 +61,7 @@ const UserModel = (sequelize: any, DataTypes: any) => {
   user.associate = (models: any) => {
     // associations can be defined here
     user.hasOne(models.wallets, {
-      foreignKey: "userId",
+      foreignKey: "walletId",
       as: "wallet",
       onDelete: "CASCADE",
     });

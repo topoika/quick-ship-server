@@ -10,16 +10,35 @@ const WalletModel = (sequelize: any, DataTypes: any) => {
         primaryKey: true,
         type: DataTypes.INTEGER,
       },
-      userId: { type: DataTypes.INTEGER, allowNull: false },
-      balance: {
+      availableForWithdrawal: {
         type: DataTypes.DECIMAL(10, 2),
         allowNull: true,
         defaultValue: 0.0,
       },
-      status: {
-        type: DataTypes.ENUM,
-        values: ["active", "inactive"],
-        defaultValue: "active",
+      earningsForMonth: {
+        type: DataTypes.DECIMAL(10, 2),
+        allowNull: true,
+        defaultValue: 0.0,
+      },
+      successScore: {
+        type: DataTypes.DECIMAL(3, 2),
+        allowNull: true,
+        defaultValue: 0,
+      },
+      earningsAllTime: {
+        type: DataTypes.DECIMAL(10, 2),
+        allowNull: true,
+        defaultValue: 0.0,
+      },
+      completedOrders: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        defaultValue: 0,
+      },
+      activeOrders: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        defaultValue: 0,
       },
     },
     {
@@ -32,10 +51,6 @@ const WalletModel = (sequelize: any, DataTypes: any) => {
   );
   wallet.associate = (models: any) => {
     //   associations can be defined here
-    wallet.belongsTo(models.users, {
-      foreignKey: "userId",
-      as: "user",
-    });
   };
   return wallet;
 };

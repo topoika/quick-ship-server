@@ -3,6 +3,7 @@ import Logger from "../../logger";
 import { validateUser } from "../middlewares/auth.middleware";
 import catchAsync from "../utils/catchAsync";
 import deleteFile from "../utils/delete.files";
+import { packageRelatedModels } from "./data.attributes";
 
 /**
  * @route POST /packages/create
@@ -289,24 +290,7 @@ const getPackageDetails = catchAsync(async (req: any, res) => {
   try {
     const myPackage = await db.packages.findOne({
       where: { id: packageId },
-      include: [
-        {
-          model: db.addresses,
-          as: "sourceAddress",
-        },
-        {
-          model: db.users,
-          as: "shipper",
-        },
-        {
-          model: db.addresses,
-          as: "destinationAddress",
-        },
-        {
-          model: db.package_images,
-          as: "images",
-        },
-      ],
+      include: packageRelatedModels,
     });
 
     if (!myPackage) {

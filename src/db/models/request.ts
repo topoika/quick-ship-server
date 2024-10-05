@@ -11,6 +11,7 @@ const PackageRequestModel = (sequelize: any, DataTypes: any) => {
         type: DataTypes.INTEGER,
       },
       tripId: { type: DataTypes.INTEGER, allowNull: false },
+      userId: { type: DataTypes.INTEGER, allowNull: false },
       packageId: { type: DataTypes.INTEGER, allowNull: false },
       postageFee: { type: DataTypes.DOUBLE, allowNull: false },
       status: {

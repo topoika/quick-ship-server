@@ -74,10 +74,15 @@ module.exports = {
         defaultValue: "email",
         allowNull: true,
       },
-      successScore: {
-        type: Sequelize.DECIMAL(3, 2),
+      walletId: {
+        type: Sequelize.INTEGER,
         allowNull: true,
-        defaultValue: 0,
+        references: {
+          model: "wallets",
+          key: "id",
+        },
+        onUpdate: "CASCADE",
+        onDelete: "SET NULL",
       },
       isOnline: {
         type: Sequelize.BOOLEAN,

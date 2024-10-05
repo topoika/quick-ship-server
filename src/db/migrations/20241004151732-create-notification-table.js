@@ -2,32 +2,38 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable("payments", {
+    await queryInterface.createTable("notifications", {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      mpesaReceiptNumber: {
-        type: Sequelize.STRING,
-        allowNull: false,
+      userId: {
+        type: Sequelize.INTEGER,
+        allowNull: true,
+        references: {
+          model: "users",
+          key: "id",
+        },
+        onUpdate: "CASCADE",
+        onDelete: "SET NULL",
       },
-      amount: {
-        type: Sequelize.DECIMAL(10, 2),
-        allowNull: false,
-      },
-      referenceNumber: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
-      mpesaNumber: {
+      title: {
         type: Sequelize.STRING,
         allowNull: true,
       },
-      shipperId: {
+      body: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
+      type: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
+      senderId: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: true,
         references: {
           model: "users",
           key: "id",
@@ -35,20 +41,14 @@ module.exports = {
         onUpdate: "CASCADE",
         onDelete: "CASCADE",
       },
-      postManId: {
+      itemId: {
         type: Sequelize.INTEGER,
-        allowNull: false,
-        references: {
-          model: "users",
-          key: "id",
-        },
-        onUpdate: "CASCADE",
-        onDelete: "CASCADE",
+        allowNull: true,
       },
-      status: {
-        type: Sequelize.ENUM("pending", "completed", "cancelled", "failed"),
-        allowNull: false,
-        defaultValue: "pending",
+      isSent: {
+        type: Sequelize.BOOLEAN,
+        allowNull: true,
+        defaultValue: false,
       },
       createdAt: {
         allowNull: false,
@@ -64,6 +64,6 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable("payments");
+    await queryInterface.dropTable("notifications");
   },
 };
