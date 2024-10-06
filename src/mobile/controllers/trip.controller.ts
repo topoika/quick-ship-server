@@ -286,15 +286,15 @@ const getRouteTrips = catchAsync(async (req: any, res) => {
         postManId: {
           [Op.ne]: req.user.id,
         },
-        dateAndTime: {
-          [Op.gte]: currentTimePlusOneHour,
-        },
       },
       include: [
         {
           model: db.addresses,
           as: "departure",
           where: {
+            dateAndTime: {
+              [Op.gte]: currentTimePlusOneHour,
+            },
             latitude: {
               [Op.and]: {
                 [Op.gte]: departureRange.minLatitude,
