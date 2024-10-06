@@ -43,8 +43,8 @@ module.exports = {
       },
       status: {
         type: Sequelize.ENUM,
-        values: ["pending", "started", "completed", "cancelled"],
-        defaultValue: "pending",
+        values: ["active", "started", "completed", "cancelled"],
+        defaultValue: "active",
       },
       departureAddressId: {
         type: Sequelize.INTEGER,

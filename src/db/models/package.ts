@@ -46,8 +46,8 @@ const PackageModel = (sequelize: any, DataTypes: any) => {
       destinationAddressId: { type: DataTypes.INTEGER, allowNull: true },
       status: {
         type: DataTypes.ENUM,
-        values: ["pending", "accepted", "paid", "picked", "delivered"],
-        defaultValue: "pending",
+        values: ["active", "accepted", "paid", "picked", "delivered"],
+        defaultValue: "active",
       },
       postManNote: { type: DataTypes.STRING, allowNull: true },
 

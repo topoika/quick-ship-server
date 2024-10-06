@@ -26,8 +26,8 @@ const TripModel = (sequelize: any, DataTypes: any) => {
       },
       status: {
         type: DataTypes.ENUM,
-        values: ["pending", "started", "completed", "cancelled"],
-        defaultValue: "pending",
+        values: ["active", "started", "completed", "cancelled"],
+        defaultValue: "active",
       },
       departureAddressId: { type: DataTypes.INTEGER, allowNull: true },
       destinationAddressId: { type: DataTypes.INTEGER, allowNull: true },

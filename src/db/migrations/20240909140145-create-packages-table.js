@@ -109,13 +109,13 @@ module.exports = {
       },
       status: {
         type: Sequelize.ENUM(
-          "pending",
+          "active",
           "accepted",
           "paid",
           "picked",
           "delivered"
         ),
-        defaultValue: "pending",
+        defaultValue: "active",
       },
       createdAt: {
         allowNull: false,

@@ -59,11 +59,16 @@ const UserModel = (sequelize: any, DataTypes: any) => {
     }
   );
   user.associate = (models: any) => {
-    // associations can be defined here
     user.hasOne(models.wallets, {
       foreignKey: "id",
       sourceKey: "walletId",
       as: "wallet",
+    });
+
+    // reviews
+    user.hasMany(models.reviews, {
+      foreignKey: "userId",
+      as: "reviews",
     });
   };
   return user;

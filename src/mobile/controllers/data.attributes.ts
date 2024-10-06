@@ -5,12 +5,16 @@ interface Coordinate {
   longitude: number;
 }
 
-const getCoordinateRange = (center: Coordinate, rangeKm: number = 10) => {
+const getCoordinateRange = (center: Coordinate) => {
   const earthRadiusKm = 6371;
-  const latRange = (rangeKm / earthRadiusKm) * (180 / Math.PI);
+  const rangeKm: number = Number(process.env.RANGE || 10);
+
+  const latRange = ((rangeKm / earthRadiusKm) * (180 / Math.PI)) / 2.8;
   const lonRange =
     ((rangeKm / earthRadiusKm) * (180 / Math.PI)) /
+    2.8 /
     Math.cos(center.latitude * (Math.PI / 180));
+
   return {
     minLatitude: center.latitude - latRange,
     maxLatitude: center.latitude + latRange,
@@ -18,7 +22,6 @@ const getCoordinateRange = (center: Coordinate, rangeKm: number = 10) => {
     maxLongitude: center.longitude + lonRange,
   };
 };
-
 const addressAtr = [
   "id",
   "country",

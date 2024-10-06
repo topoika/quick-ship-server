@@ -214,8 +214,35 @@ const getTripDetails = catchAsync(async (req: any, res) => {
         {
           model: db.users,
           as: "postman",
+          attributes: {
+            include: [
+              [
+                db.Sequelize.fn(
+                  "COUNT",
+                  db.Sequelize.col("postman.reviews.id")
+                ),
+                "reviewCount",
+              ],
+              [
+                db.Sequelize.fn(
+                  "AVG",
+                  db.Sequelize.col("postman.reviews.rating")
+                ),
+                "averageRating",
+              ],
+            ],
+          },
+          include: [
+            {
+              model: db.reviews,
+              as: "reviews",
+              attributes: [],
+              required: false,
+            },
+          ],
         },
       ],
+      group: ["postman.id"],
     });
     if (!trip) {
       return res.status(404).json({
@@ -251,10 +278,17 @@ const getRouteTrips = catchAsync(async (req: any, res) => {
   const destination: Coordinate = req.body.destination;
   const departureRange = getCoordinateRange(departure);
   const destinationRange = getCoordinateRange(destination);
+  const currentTimePlusOneHour = new Date(Date.now() + 60 * 60 * 1000);
   try {
     const trips = await db.trips.findAll({
       where: {
         status: "active",
+        postManId: {
+          [Op.ne]: req.user.id,
+        },
+        dateAndTime: {
+          [Op.gte]: currentTimePlusOneHour,
+        },
       },
       include: [
         {

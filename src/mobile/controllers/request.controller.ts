@@ -11,6 +11,19 @@ const createRequest = catchAsync(async (req: any, res) => {
   const transaction = await db.sequelize.transaction();
   const { packageId, tripId } = req.body;
 
+  // check if request already exists
+  const existingRequest = await db.requests.findOne({
+    where: { packageId, tripId },
+  });
+  if (existingRequest) {
+    return res.status(400).json({
+      status: 400,
+      success: false,
+      message: "Request already exists",
+      error: "Request already exists",
+    });
+  }
+
   const trip = await db.trips.findOne({
     where: { id: tripId },
   });
