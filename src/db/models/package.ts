@@ -11,6 +11,7 @@ const PackageModel = (sequelize: any, DataTypes: any) => {
         type: DataTypes.INTEGER,
       },
       shipperId: { type: DataTypes.INTEGER, allowNull: false },
+      orderId: { type: DataTypes.INTEGER, allowNull: true },
       name: { type: DataTypes.STRING, allowNull: false },
       description: { type: DataTypes.STRING, allowNull: true },
       dimLength: {

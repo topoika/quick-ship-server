@@ -20,7 +20,7 @@ const PaymentModel = (sequelize: any, DataTypes: any) => {
       mpesaNumber: { type: DataTypes.STRING, allowNull: true },
       status: {
         type: DataTypes.ENUM,
-        values: ["pending", "completed", "cancelled", "failed"],
+        values: ["pending", "success", "cancelled", "failed"],
         defaultValue: "pending",
       },
     },

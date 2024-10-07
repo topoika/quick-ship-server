@@ -30,15 +30,15 @@ const createOrder = catchAsync(async (req: any, res) => {
     });
   }
   try {
-    const data = await initiateSTKPush(phone, 1);
+    // const data = await initiateSTKPush(phone, 1);
     let payment = await db.payments.create(
       {
         postManId: request.userId,
         shipperId: user.id,
-        referenceNumber: data.CheckoutRequestID,
+        referenceNumber: "123456",
         amount: request.postageFee,
         mpesaNumber: phone,
-        status: "pending",
+        status: "success",
       },
       { transaction }
     );
@@ -54,6 +54,15 @@ const createOrder = catchAsync(async (req: any, res) => {
       },
       { transaction }
     );
+
+    await db.packages.update(
+      { status: "paid", orderId: order.id },
+      {
+        where: { id: request.packageId },
+        transaction,
+      }
+    );
+
     await db.notifications.create(
       {
         userId: request.userId,
@@ -107,15 +116,15 @@ const retryPayment = catchAsync(async (req: any, res) => {
     where: { id: order.paymentId },
   });
   try {
-    const data = await initiateSTKPush(phone, 1);
+    // const data = await initiateSTKPush(phone, 1);
     let payment = await db.payments.create(
       {
         postManId: order.postManId,
         shipperId: user.id,
-        referenceNumber: data.CheckoutRequestID,
+        referenceNumber: "123456",
         amount: oldPayment.amount,
         mpesaNumber: phone,
-        status: "pending",
+        status: "success",
       },
       { transaction }
     );
