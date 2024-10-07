@@ -93,38 +93,54 @@ const initiateSTKPush = async (phoneNumber: string, amount: number) => {
  * @description endpoint to receive a callback from mpesa
  */
 const mpesaCallback = catchAsync(async (req: any, res) => {
-  const callbackData = req.body;
-  const resultCode = callbackData?.Body?.stkCallback?.ResultCode;
-  if (resultCode === 0) {
-    const mpesaReceiptNumber =
-      callbackData?.Body?.stkCallback?.CallbackMetadata?.Item?.find(
-        (item: any) => item.Name === "MpesaReceiptNumber"
-      )?.Value;
-    const payment = await db.payments.findOne({
-      where: {
-        referenceNumber: callbackData?.Body?.stkCallback?.CheckoutRequestID,
-      },
+  try {
+    const callbackData = req.body;
+    const resultCode = callbackData?.Body?.stkCallback?.ResultCode;
+
+    if (resultCode === 0) {
+      const mpesaReceiptNumber =
+        callbackData?.Body?.stkCallback?.CallbackMetadata?.Item?.find(
+          (item: any) => item.Name === "MpesaReceiptNumber"
+        )?.Value;
+
+      const payment = await db.payments.findOne({
+        where: {
+          referenceNumber: callbackData?.Body?.stkCallback?.CheckoutRequestID,
+        },
+      });
+
+      if (payment) {
+        payment.status = "completed";
+        payment.mpesaReceiptNumber = mpesaReceiptNumber;
+        await payment.save();
+        Logger.info(
+          "Transaction successful. M-Pesa Receipt Number:",
+          mpesaReceiptNumber
+        );
+      }
+    } else {
+      const payment = await db.payments.findOne({
+        where: {
+          referenceNumber: callbackData?.Body?.stkCallback?.CheckoutRequestID,
+        },
+      });
+
+      if (payment) {
+        payment.status = "failed";
+        await payment.save();
+        Logger.error("Transaction failed. ResultCode:", resultCode);
+      }
+    }
+
+    res.status(200).json({
+      message: "Callback received",
     });
-    payment.status = "completed";
-    payment.mpesaReceiptNumber = mpesaReceiptNumber;
-    await payment.save();
-    Logger.info(
-      "Transaction successful. M-Pesa Receipt Number:",
-      mpesaReceiptNumber
-    );
-  } else {
-    const payment = await db.payments.findOne({
-      where: {
-        referenceNumber: callbackData?.Body?.stkCallback?.CheckoutRequestID,
-      },
+  } catch (error) {
+    Logger.error("Error processing M-Pesa callback:", error);
+    res.status(500).json({
+      message: "Internal server error",
     });
-    payment.status = "failed";
-    await payment.save();
-    Logger.error("Transaction failed. ResultCode:", resultCode);
   }
-  res.status(200).json({
-    message: "Callback received",
-  });
 });
 
 export { initiateSTKPush, mpesaCallback };
