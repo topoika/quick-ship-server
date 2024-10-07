@@ -111,7 +111,7 @@ module.exports = {
         type: Sequelize.ENUM(
           "active",
           "accepted",
-          "paid",
+          "ordered",
           "picked",
           "delivered"
         ),

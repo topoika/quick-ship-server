@@ -56,7 +56,7 @@ const createOrder = catchAsync(async (req: any, res) => {
     );
 
     await db.packages.update(
-      { status: "paid", orderId: order.id },
+      { status: "ordered", orderId: order.id },
       {
         where: { id: request.packageId },
         transaction,
