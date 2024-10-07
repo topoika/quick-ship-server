@@ -385,7 +385,7 @@ const updateOrderStatus = catchAsync(async (req: any, res) => {
  */
 const addReview = catchAsync(async (req: any, res) => {
   const user = await validateUser(req.user.id);
-  const { orderId, rating } = req.body;
+  const { orderId, rating, tipAmount } = req.body;
   const order = await db.orders.findByPk(orderId);
   if (!order) {
     return res.status(404).json({
@@ -415,6 +415,7 @@ const addReview = catchAsync(async (req: any, res) => {
     userId: order.postManId,
     orderId: order.id,
     rating,
+    tipAmount: tipAmount || null,
     review: "Coming Soon...",
   });
   order.reviewId = reviewData.id;
