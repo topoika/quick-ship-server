@@ -110,6 +110,17 @@ const acceptRequest = catchAsync(async (req: any, res) => {
       { status: "accepted" },
       { where: { id: requestId }, transaction }
     );
+    await db.notifications.create(
+      {
+        userId: request.senderId,
+        title: "Request Accepted",
+        body: `Your request has been accepted`,
+        type: "response",
+        senderId: user.id,
+        itemId: request.id,
+      },
+      { transaction }
+    );
     await transaction.commit();
     res.status(200).json({
       status: 200,
