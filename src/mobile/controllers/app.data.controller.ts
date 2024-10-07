@@ -7,7 +7,9 @@ import { walletAtr } from "./data.attributes";
  * @route GET /data/faqs
  */
 const getFAQs = catchAsync(async (req: any, res) => {
-  const faqs = await db.faqs.findAll();
+  const faqs = await db.faqs.findAll({
+    order: [["createdAt", "DESC"]],
+  });
   res.status(200).json({
     status: 200,
     success: true,
@@ -20,7 +22,9 @@ const getFAQs = catchAsync(async (req: any, res) => {
  * @route GET /data/feeds
  */
 const getFeeds = catchAsync(async (req: any, res) => {
-  const feeds = await db.feeds.findAll();
+  const feeds = await db.feeds.findAll({
+    order: [["createdAt", "DESC"]],
+  });
   res.status(200).json({
     status: 200,
     success: true,
@@ -53,6 +57,7 @@ const getUserNotifications = catchAsync(async (req: any, res) => {
   const user = await validateUser(req.user.id);
   const notifications = await db.notifications.findAll({
     where: { userId: user.id },
+    order: [["createdAt", "DESC"]],
   });
   res.status(200).json({
     status: 200,

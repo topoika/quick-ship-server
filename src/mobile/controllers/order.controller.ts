@@ -173,6 +173,7 @@ const getMyOrders = catchAsync(async (req: any, res) => {
         as: "payment",
       },
     ],
+    order: [["createdAt", "DESC"]],
   });
   res.status(200).json({
     status: 200,
@@ -252,7 +253,9 @@ const getShipments = catchAsync(async (req: any, res) => {
         as: "payment",
       },
     ],
+    order: [["createdAt", "DESC"]], // Order by createdAt from the latest
   });
+
   res.status(200).json({
     status: 200,
     success: true,
@@ -366,6 +369,8 @@ const updateOrderStatus = catchAsync(async (req: any, res) => {
       mpesaReceiptNumber: "123456",
       paymentDate: new Date(),
     });
+    wallet.availableBalance += payment.amount * 0.9;
+    wallet.earnings += payment.amount * 0.9;
     wallet.completedOrders += 1;
     wallet.activeOrders -= 1;
     await wallet.save();
@@ -387,6 +392,8 @@ const addReview = catchAsync(async (req: any, res) => {
   const user = await validateUser(req.user.id);
   const { orderId, rating, tipAmount } = req.body;
   const order = await db.orders.findByPk(orderId);
+  // transaction
+  const transacton = await db.sequelize.transaction();
   if (!order) {
     return res.status(404).json({
       status: 404,
@@ -411,21 +418,75 @@ const addReview = catchAsync(async (req: any, res) => {
       error: "Review already added",
     });
   }
-  const reviewData = await db.reviews.create({
-    userId: order.postManId,
-    orderId: order.id,
-    rating,
-    tipAmount: tipAmount || null,
-    review: "Coming Soon...",
-  });
-  order.reviewId = reviewData.id;
-  await order.save();
-  res.status(201).json({
-    status: 201,
-    success: true,
-    message: "Review added successfully",
-    data: reviewData,
-  });
+  try {
+    const reviewData = await db.reviews.create(
+      {
+        userId: order.postManId,
+        orderId: order.id,
+        rating,
+        tipAmount: tipAmount || null,
+        review: "Coming Soon...",
+      },
+      { transacton }
+    );
+
+    if (tipAmount) {
+      const payment = await db.payments.findOne({
+        where: { id: order.paymentId },
+      });
+      const postman = await db.users.findOne({
+        where: { id: order.postManId },
+      });
+
+      const wallet = await db.wallets.findOne({
+        where: { id: postman.walletId },
+        attributes: walletAtr,
+      });
+      await db.notifications.create(
+        {
+          userId: order.shipperId,
+          title: "You've received a tip",
+          body: `You've received a tip of ${tipAmount} KES`,
+          type: "tip",
+          senderId: user.id,
+          itemId: reviewData.id,
+        },
+        { transacton }
+      );
+      await db.transactions.create(
+        {
+          paymentId: payment.id,
+          paidAmount: payment.amount,
+          commissionAmount: payment.amount * 0.1,
+          netAmount: payment.amount * 0.9,
+          mpesaReceiptNumber: "123456",
+          paymentDate: new Date(),
+        },
+        { transacton }
+      );
+      wallet.availableBalance += tipAmount;
+      wallet.earnings += tipAmount;
+      await wallet.save({ transacton });
+      await transacton.commit();
+    }
+    order.reviewId = reviewData.id;
+    await order.save();
+    res.status(201).json({
+      status: 201,
+      success: true,
+      message: "Review added successfully",
+      data: reviewData,
+    });
+  } catch (error: any) {
+    Logger.error(error.message);
+    await transacton.rollback();
+    return res.status(400).json({
+      status: 400,
+      success: false,
+      message: "Error adding review",
+      error: error.message,
+    });
+  }
 });
 
 export {

@@ -181,6 +181,7 @@ const getMyTrips = catchAsync(async (req: any, res) => {
           as: "postman",
         },
       ],
+      order: [["createdAt", "DESC"]],
     });
     return res.status(200).json({
       status: 200,
@@ -332,6 +333,7 @@ const getRouteTrips = catchAsync(async (req: any, res) => {
           as: "postman",
         },
       ],
+      order: [["createdAt", "DESC"]],
     });
     return res.status(200).json({
       status: 200,

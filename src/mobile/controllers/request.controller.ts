@@ -43,6 +43,7 @@ const createRequest = catchAsync(async (req: any, res) => {
         packageId,
         tripId,
         userId: trip.postManId,
+        senderId: user.id,
         postageFee: trip.postageFee,
       },
       { transaction }

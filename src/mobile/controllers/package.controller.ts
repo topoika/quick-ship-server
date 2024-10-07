@@ -345,6 +345,7 @@ const getMyPackages = catchAsync(async (req: any, res) => {
           as: "images",
         },
       ],
+      order: [["createdAt", "DESC"]],
     });
 
     return res.status(200).json({
