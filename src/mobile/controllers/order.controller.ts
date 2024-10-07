@@ -333,12 +333,20 @@ const updateOrderStatus = catchAsync(async (req: any, res) => {
       where: { id: walletId },
       attributes: walletAtr,
     });
+    await db.notifications.create({
+      userId: order.shipperId,
+      title: "Order Deliverd",
+      body: `Your order has been delivered`,
+      type: "order",
+      senderId: user.id,
+      itemId: order.id,
+    });
     await db.transactions.create({
       paymentId: payment.id,
       paidAmount: payment.amount,
       commissionAmount: payment.amount * 0.1,
       netAmount: payment.amount * 0.9,
-      mpesaReceiptNumber: payment.mpesaReceiptNumber,
+      mpesaReceiptNumber: "123456",
       paymentDate: new Date(),
     });
     wallet.completedOrders += 1;
