@@ -369,8 +369,10 @@ const updateOrderStatus = catchAsync(async (req: any, res) => {
       mpesaReceiptNumber: "123456",
       paymentDate: new Date(),
     });
+    wallet.availableBalance = parseFloat(wallet.availableBalance) || 0.0;
+    wallet.earningsAllTime = parseFloat(wallet.earningsAllTime) || 0.0;
     wallet.availableBalance += payment.amount * 0.9;
-    wallet.earnings += payment.amount * 0.9;
+    wallet.earningsAllTime += payment.amount * 0.9;
     wallet.completedOrders += 1;
     wallet.activeOrders -= 1;
     await wallet.save();
@@ -464,8 +466,10 @@ const addReview = catchAsync(async (req: any, res) => {
         },
         { transacton }
       );
+      wallet.availableBalance = parseFloat(wallet.availableBalance) || 0.0;
+      wallet.earningsAllTime = parseFloat(wallet.earningsAllTime) || 0.0;
       wallet.availableBalance += tipAmount;
-      wallet.earnings += tipAmount;
+      wallet.earningsAllTime += tipAmount;
       await wallet.save({ transacton });
       await transacton.commit();
     }
