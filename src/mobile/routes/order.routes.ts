@@ -1,13 +1,14 @@
 import { Router } from "express";
 import { AuthMiddleware } from "../middlewares/auth.middleware";
 import {
-    addReview,
+  addReview,
   cancelOrder,
   createOrder,
   getMyOrders,
   getShipments,
   retryPayment,
   updateOrderStatus,
+  getOrderDetails,
 } from "../controllers/order.controller";
 const router = Router();
 router.post("/create", AuthMiddleware, createOrder);
@@ -19,5 +20,6 @@ router.put("/update-status", AuthMiddleware, updateOrderStatus);
 // router.put("/mark-delivered", AuthMiddleware, markDelivered);
 // router.get("/home-orders", AuthMiddleware,homeOrders );
 router.get("/my-orders", AuthMiddleware, getMyOrders);
+router.get("/order-details", AuthMiddleware, getOrderDetails);
 router.get("/my-shipments", AuthMiddleware, getShipments);
 export default router;

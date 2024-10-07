@@ -182,6 +182,37 @@ const getMyOrders = catchAsync(async (req: any, res) => {
   });
 });
 /**
+ * @route GET /orders/order-details?id=
+ * @description endpoint get order details
+ */
+const getOrderDetails = catchAsync(async (req: any, res) => {
+  const orderId = req.query.id;
+  const order = await db.orders.findByPk(orderId, {
+    include: [
+      {
+        model: db.packages,
+        as: "package",
+        include: packageRelatedModels,
+      },
+      {
+        model: db.reviews,
+        as: "review",
+      },
+      {
+        model: db.payments,
+        as: "payment",
+      },
+    ],
+  });
+  res.status(200).json({
+    status: 200,
+    success: true,
+    message: "Order fetched successfully",
+    data: order,
+  });
+});
+
+/**
  * @route GET /orders/get-shipments
  * @description endpoint get user shipments
  */
@@ -373,6 +404,7 @@ const addReview = catchAsync(async (req: any, res) => {
 
 export {
   createOrder,
+  getOrderDetails,
   retryPayment,
   getMyOrders,
   getShipments,
