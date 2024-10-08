@@ -1,5 +1,6 @@
 import path from "path";
 import db from "../../db/models";
+import * as admin from "firebase-admin";
 import Logger from "../../logger";
 import { validateUser } from "../middlewares/auth.middleware";
 import catchAsync from "../utils/catchAsync";
@@ -117,4 +118,54 @@ const deleteAccount = catchAsync(async (req: any, res) => {
   }
 });
 
-export { getUserInfo, updateProfile, deleteAccount };
+/**
+ * @route POST /user/send-notification
+ */
+
+const sendNotification = catchAsync(async (req: any, res) => {
+  const { title, body, itemId, senderId, userId } = req.body;
+  let info = {
+    title: `${title}`,
+    body: `${body}`,
+    type: "message",
+    itemId: `${itemId}`,
+    senderId: `${senderId}`,
+    userId: `${userId}`,
+    click_action: "FLUTTER_NOTIFICATION_CLICK",
+  };
+  const message = {
+    notification: {
+      title: `${title}`,
+      body: `${body}`,
+    },
+    android: {
+      notification: {
+        sound: "notifications_sound",
+        click_action: "FLUTTER_NOTIFICATION_CLICK",
+      },
+    },
+    topic: `user_${userId}`,
+    data: info,
+  };
+  admin
+    .messaging()
+    .send(message)
+    .then(async (response) => {
+      res.status(200).send({
+        status: 200,
+        success: true,
+        message: "Notification sent successfully",
+      });
+    })
+    .catch((error) => {
+      Logger.error("Error sending message:", error);
+      res.status(500).send({
+        status: 500,
+        success: false,
+        message: "Failed to send notification",
+        error: "NotificationSendError",
+      });
+    });
+});
+
+export { getUserInfo, updateProfile, sendNotification, deleteAccount };

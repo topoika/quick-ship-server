@@ -6,7 +6,7 @@ import path from "path";
 import fs from "fs";
 
 import cors, { CorsRequest } from "cors";
-// import * as serviceAccount from "../service-account.json";
+import * as serviceAccount from "../service-account.json";
 import * as dotenv from "dotenv";
 import "reflect-metadata";
 import { buildSchema } from "type-graphql";
@@ -50,12 +50,6 @@ const statusController = async (req: Request, res: Response) => {
   }
 };
 
-// app.get("/privacy-and-policy", (req, res) => {
-//   res.render(path.join(__dirname, "templates", "privacy-and-policy"));
-// });
-// app.get("/terms-and-conditions", (req, res) => {
-//   res.render(path.join(__dirname, "templates", "terms-and-conditions"));
-// });
 app.get("/", (req, res) => {
   res.render(path.join(__dirname, "templates", "coming-soon"));
 });
@@ -88,14 +82,14 @@ async function startServer(app: Application, httpServer: http.Server) {
   );
 
   httpServer.listen(PORT, () => {
-    // admin.initializeApp({
-    //   credential: admin.credential.cert(serviceAccount as admin.ServiceAccount),
-    // });
+    admin.initializeApp({
+      credential: admin.credential.cert(serviceAccount as admin.ServiceAccount),
+    });
     Logger.info(`🚀 Server ready at http://localhost:${PORT}/graphql`);
   });
 }
 
 startServer(app, httpServer).then(() => {
   bootstrapMobileApis(app);
-  // setupEventExpireBackgroundRunner();
+  setupEventExpireBackgroundRunner();
 });
