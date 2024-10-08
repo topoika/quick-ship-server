@@ -36,7 +36,7 @@ const sendUnsendNotification = async () => {
       try {
         const response = await admin.messaging().send(message);
         await db.notifications.update(
-          { isSend: true },
+          { isSent: true },
           { where: { id: item.id } }
         );
         Logger.info(
