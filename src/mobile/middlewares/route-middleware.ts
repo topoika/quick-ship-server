@@ -11,9 +11,9 @@ const RouteTokenMiddleware = (
   if (token && token === process.env.ROUTE_TOKEN) {
     next();
   } else {
-    res.status(401).json({
-      status: 401,
-      message: "Unauthorized: Invalid or missing route token",
+    res.status(422).json({
+      status: 422,
+      message: "Missing/Invalid route token headers",
     });
   }
 };
