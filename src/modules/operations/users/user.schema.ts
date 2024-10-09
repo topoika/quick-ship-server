@@ -51,6 +51,9 @@ export class User {
   @Field({ nullable: true })
   signInMethod: string;
 
+  @Field({ nullable: true })
+  idNumber: string;
+
   @Field()
   isOnline: boolean;
 

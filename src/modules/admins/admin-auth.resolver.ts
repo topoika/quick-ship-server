@@ -1,4 +1,4 @@
-import { Arg, Authorized, Ctx, Mutation, Query, Resolver } from "type-graphql";
+import { Arg, Authorized, Ctx, Query, Resolver } from "type-graphql";
 import bcrypt from "bcryptjs";
 import { sign } from "jsonwebtoken";
 
@@ -42,16 +42,20 @@ export class AdminAuthResolver {
     { email, password }: AdminLoginInput
   ): Promise<User> {
     let admin = await db.users.findOne({
-      where: { email, role: "admin" },
+      where: { email },
     });
 
     if (!admin) {
-      throw new Error("Incorrect Credentials!");
+      throw new Error("Admin not found!");
     }
 
     const valid = await bcrypt.compare(password, admin.password);
     if (!valid) {
-      throw new Error("Incorrect Credentials!");
+      throw new Error("Incorrect Password!");
+    }
+
+    if (admin.role !== "admin") {
+      throw new Error("User is not admin!");
     }
 
     const secretKey: string = process.env.SECRET_KEY || "";
