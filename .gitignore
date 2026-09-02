@@ -14,7 +14,3 @@ src/utils/constants.ts
 service-account.json
 package-lock.json
 quick-ship-93392-firebase-adminsdk-ko471-21e77c7507.json
-branch_structure.json
-temp_auto_push.bat
-temp_interactive_push.bat
-.gitignore
