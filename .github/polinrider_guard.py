@@ -9,7 +9,7 @@ Exit code 0 = clean, 1 = malware found, 2 = error.
 In GitHub Actions it also prints ::error annotations so findings show on the commit.
 
 Flags:
-  - payload markers anywhere (global.i=, global['!'], global['_V'], _$_1e42, rmcej%otb%, Cot%3t=shtP, ...)
+  - known PolinRider payload markers anywhere (see _SIG below; never spelled out in full here)
   - config files (postcss/tailwind/next/vite/eslint/...) with code hidden after 100+ spaces/tabs
   - config files that suddenly weigh > 4 KB
   - "font" files that are not real fonts (fa-solid-400.woff2, fa-solid-300.llf, ...)
@@ -20,8 +20,18 @@ Flags:
 """
 import os, re, subprocess, sys
 
-MARK_RE = re.compile(r"global\.i\s*=\s*'|global\[['\"]!['\"]\]\s*=|global\[['\"]_V['\"]\]\s*=|_\$_1e42|"
-                     r"rmcej%otb%|Cot%3t=shtP|0xa322E5f3D311D3080e6f0121063e9aDC2490Ef1a", re.I)
+# Signatures are assembled from pieces (and joined at runtime) so this file never contains
+# a complete signature itself - otherwise every scanner, including this one, would flag it.
+_SIG = [
+    r"global\.i\s*=\s*'",
+    r"global\[['\"]!['\"]\]\s*=",
+    r"global\[['\"]_V['\"]\]\s*=",
+    "_\\$_" + "1e" + "42",                      # decoder name, original variant
+    "rmc" + "ej%" + "otb%",                       # original variant marker
+    "Cot" + "%3t" + "=shtP",                      # newer variant marker
+    "0xa322" + "E5f3D311D3080e6f0121063e9aDC" + "2490Ef1a",   # blockchain C2 wallet
+]
+MARK_RE = re.compile("|".join(_SIG), re.I)
 CONFIG_RE = re.compile(r"(^|/)(postcss|tailwind|next|vite|eslint|babel|webpack|nuxt|svelte|astro|vue|jest|"
                        r"vitest|prettier|metro|rollup|tsup|craco)\.config\.(js|mjs|cjs|ts|mts|cts)$|"
                        r"(^|/)\.eslintrc\.(js|cjs)$")
