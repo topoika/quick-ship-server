@@ -1,0 +1,20 @@
+# Scans every push and pull request for PolinRider malware.
+# If it finds anything the run fails, the commit gets a red X with the file names,
+# and GitHub emails you ("Run failed") - even when the push was made with a stolen token.
+name: PolinRider guard
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Scan for PolinRider
+        run: python3 .github/polinrider_guard.py .
